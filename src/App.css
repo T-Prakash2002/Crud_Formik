@@ -5,3 +5,11 @@ background: linear-gradient(90deg, rgba(170,186,115,0.3897934173669467) 0%, rgba
     object-fit: fill;
     height: 100%;
 }
+.card{
+    box-shadow:-3px 0 6px gray;
+}
+.card:hover{
+    box-shadow:-6px 0 6px rgba(55, 141, 38, 0);
+    z-index: 10;
+    scale: 1.03;
+}

@@ -22,6 +22,7 @@ validationSchema:validateform,
     axios.post(`https://66129f4a53b0d5d80f6607c9.mockapi.io/api/v1/details`,{...values})
       .then((res)=>alert("Added"))
       .catch((err)=>alert("Added Error"))
+
   }
 })
 
