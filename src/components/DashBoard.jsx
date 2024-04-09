@@ -34,19 +34,19 @@ function DashBoard() {
                   <div className="card mb-3" >
                 <div className="row g-0">
                   <div className="col-md-4">
-                    <img src={book.image} className="img-fluid rounded-start" alt="..."/>
+                    <img src={book.book_imgURL} className="img-fluid rounded-start" alt="..."/>
                   </div>
                   <div className="col-md-8">
                     <div className="card-body">
-                      <h5 className="card-title">Book Name: {book.title}</h5>
+                      <h5 className="card-title">Book Name: {book.book_title}</h5>
                       <p className="card-text">
-                        <strong>Author:</strong>{book.author}
+                        <strong>Author:</strong>{book.author_name}
                       </p>
                       <p className="card-text">
-                        <strong>ISBN:</strong>{book.ISBN_Number}
+                        <strong>ISBN:</strong>{book.book_ISBN}
                       </p>
                       <p className="card-text"><small className="text-body-secondary">
-                        <strong>Publication Number:</strong>{book.Publication_Date}</small></p>
+                        <strong>Publication Number:</strong>{book.book_Pub_Date}</small></p>
                     </div>
                   </div>
                 </div>
