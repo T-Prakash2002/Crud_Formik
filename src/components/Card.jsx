@@ -15,11 +15,11 @@ function Card({book,handleSelected}) {
                     <div className="col-md-4">
                       <img
                         src={book.book_imgURL}
-                        className="img-fluid rounded-start"
+                        className="card-img-top text-center"
                         alt="..."
                       />
                     </div>
-                    <div className="col-md-8">
+                    
                       <div className="card-body">
                         <h5 className="card-title">
                           Book Name: {book.book_title}
@@ -38,8 +38,20 @@ function Card({book,handleSelected}) {
                             {book.book_Pub_Date}
                           </small>
                         </p>
+                        <p className="card-text">
+                          <small className="text-body-secondary">
+                            <strong>Author DOB:</strong>
+                            {book.author_dob}
+                          </small>
+                        </p>
+                        <p className="card-text">
+                          <small className="text-body-secondary">
+                            <strong>Author Bio:</strong>
+                            {book.author_bio}
+                          </small>
+                        </p>
                       </div>
-                    </div>
+                    
                   </div>
                 </div>
   )

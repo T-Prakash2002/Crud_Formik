@@ -43,11 +43,11 @@ function App() {
         </nav>
       </div>
 
-      <div className="row mt-5">
+      <div className="row mt-5 mb-5">
         <Outlet />
       </div>
 
-      <div className="row mt-3">
+      <div className="row mt-3 fixed-bottom">
           <nav className="navbar navbar-dark bg-dark ">
           <div className="container-fluid">
             <span className="navbar-brand mb-0 h1">&copy;Copyright</span>

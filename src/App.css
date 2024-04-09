@@ -1,15 +1,19 @@
 
 .page{
-    background: rgb(170,186,115);
-background: linear-gradient(90deg, rgba(170,186,115,0.3897934173669467) 0%, rgba(22,255,0,0.4290091036414566) 0%, rgba(187,234,189,1) 1%, rgba(149,48,249,0.025647759103641476) 46%, rgba(252,241,167,0.3897934173669467) 56%, rgba(176,232,193,1) 79%, rgba(236,183,197,0.7819502801120448) 100%, rgba(252,241,167,0.3897934173669467) 100%);
-    object-fit: fill;
-    height: 100%;
+    background: rgb(190, 154, 35);
+/* background: linear-gradient(90deg, rgba(170,186,115,0.3897934173669467) 0%, rgba(22,255,0,0.4290091036414566) 0%, rgba(187,234,189,1) 1%, rgba(159, 168, 160, 0.911) 46%, rgba(143, 127, 22, 0.39) 56%, rgba(176,232,193,1) 79%, rgba(236,183,197,0.7819502801120448) 100%, rgba(114, 103, 31, 0.39) 100%);
+    object-fit: fill;*/
+    height: 200vh; 
 }
 .card{
     box-shadow:-3px 0 6px gray;
+    height: 29rem;
 }
 .card:hover{
     box-shadow:-6px 0 6px rgba(55, 141, 38, 0);
     z-index: 10;
     scale: 1.03;
+}
+small,.error{
+    color: red;
 }

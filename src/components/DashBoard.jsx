@@ -1,52 +1,121 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useFormik } from "formik";
-import { validateform } from "./validateform";
+import { useFormik, Formik, Form, Field, ErrorMessage } from "formik";
 import Card from "./Card";
+import * as Yup from "yup";
+import { validateform } from "./validateform";
+
+
 
 
 function DashBoard() {
   const [books, setBooks] = useState([]);
+
+  const [bookTitle, setBookTitle] = useState("");
+  const [bookISBN, setBookISBN] = useState("");
+  const [bookPub_Date, setBookPubDate] = useState("");
+  const [bookImgURL, setbookImgURL] = useState("");
+  const [authorName, setauthorName] = useState("");
+  const [authorDOB, setauthorDOB] = useState("");
+  const [authorBIO, setauthorBIO] = useState("");
 
   const [selected, setSelected] = useState([]);
 
   useEffect(() => {
     axios
       .get(`https://66129f4a53b0d5d80f6607c9.mockapi.io/api/v1/details`)
-      .then((res) => setBooks(res.data));
+      .then((res) => {
+        setBooks(res.data)
+        console.log(res.data)
+        });
 
-  }, [books,selected]);
+      setBookTitle(bookTitle)
+      setBookISBN(bookISBN)
+      setBookPubDate(bookPub_Date)
+      setbookImgURL(bookImgURL)
+      setauthorName(authorName)
+      setauthorDOB(authorDOB)
+      setauthorBIO(authorBIO)
+  }, []);
 
   const handleSelected = (id) => {
     const selectedItem = books.find((item) => item.id === id);
 
     setSelected(selectedItem);
+
+    setBookTitle(selectedItem.book_title);
+    setBookISBN(selectedItem.book_ISBN);
+    setBookPubDate(selectedItem.book_Pub_Date);
+    setbookImgURL(selectedItem.book_imgURL);
+    setauthorName(selectedItem.author_name);
+    setauthorDOB(selectedItem.author_dob);
+    setauthorBIO(selectedItem.author_bio);
   };
 
-  const {values,handleChange,handleBlur,handleSubmit,errors}=useFormik({
+  //   const { values, handleBlur, handleSubmit, errors } = useFormik({
+  //     initialValues: {
+  //       book_title: "",
+  //       book_ISBN: "",
+  //       book_Pub_Date: "",
+  //       book_imgURL: "",
+  //       author_name: "",
+  //       author_dob: "",
+  //       author_bio: "",
+  //     },
+  //
+  //     validationSchema: Yup.object({
+  //
+  //       book_title: Yup.string().min(2).required("Please Enter name"),
+  //       book_ISBN: Yup.string().min(2).required("Please Enter ISBN"),
+  //       book_Pub_Date: Yup.string().min(2).required("Please Select DoB"),
+  //       book_imgURL: Yup.string().min(2).required("Please Enter Url"),
+  //       author_name: Yup.string().min(2).required("Please Enter Author name"),
+  //       author_dob: Yup.string().min(2).required("Please Enter Author DoB"),
+  //       author_bio: Yup.string().min(2).required("Please Enter Author Bio"),
+  //     }),
+  //     onSubmit: (values) => {
+  //       console.log(values);
+  //       axios
+  //         .put(
+  //           `https://66129f4a53b0d5d80f6607c9.mockapi.io/api/v1/details/${selected.id}`,
+  //           values
+  //         )
+  //         .then((res) => alert("Updated success"))
+  //         .catch((err) => alert("Updated Error"));
+  //     },
+  //   });
 
+  const deleteBook = (id) => {
+    axios
+      .delete(
+        `https://66129f4a53b0d5d80f6607c9.mockapi.io/api/v1/details/${id}`
+      )
+      .then((res) => alert("Deleted success"))
+      .catch((err) => alert("deleted Error"));
+  };
+
+  const UpdateBook = (e,id) => {
     
-  initialValues:{
-    book_title: selected.book_title,
-    book_ISBN:selected.book_ISBN,
-    book_Pub_Date:selected.book_Pub_Date,
-    book_imgURL:selected.book_imgURL,
-    author_name:selected.author_name,
-    author_dob:selected.author_dob,
-    author_bio:selected.author_bio
-  },
-  
-  validationSchema:validateform,
-  onSubmit:(values)=>{
+    e.preventDefault();
+    const item = {
 
-    console.log(values);
-    axios.put(`https://66129f4a53b0d5d80f6607c9.mockapi.io/api/v1/details/${selected.id}`,values)
-      .then((res)=>alert("Updated success"))
-      .catch((err)=>alert("Updated Error"))
-
-  }
-})
-
+      book_title: e.target.elements[0].value,
+      book_ISBN: e.target.elements[1].value,
+      book_Pub_Date: e.target.elements[2].value,
+      book_imgURL:e.target.elements[3].value,
+      author_name:e.target.elements[4].value,
+      author_dob: e.target.elements[5].value,
+      author_bio: e.target.elements[6].value,
+    
+    };
+     axios
+          .put(
+            `https://66129f4a53b0d5d80f6607c9.mockapi.io/api/v1/details/${id}`,
+            item
+          )
+          .then((res)=>alert("Updated Successfully"))
+          .catch((err)=>alert("Error"))
+  };
   return (
     <div>
       <div className="container-fluid">
@@ -84,142 +153,171 @@ function DashBoard() {
                       </div>
 
                       <div className="modal-body">
-                        
-                        <form onSubmit={handleSubmit}>
-                          <div className="book">
-                            <h5>Book Details</h5>
-                            <div className="mb-3">
-                              <label htmlFor="book_title">Title</label>
-                              <br />
-                              <input
-                                type="text"
-                                name="book_title"
-                                
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                              />
-                              <br />
-                              {errors.book_title && (
-                                <small>{errors.book_title}</small>
-                              )}
-                            </div>
-                            <div className="mb-3">
-                              <label htmlFor="book_ISBN">ISBN_NUMBER:</label>
-                              <br />
-                              <input
-                                type="text"
-                                name="book_ISBN"
-                                
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                              />
-                              <br />
-                              {errors.book_ISBN && (
-                                <small>{errors.book_ISBN}</small>
-                              )}
-                            </div>
-                            <div className="mb-3">
-                              <label htmlFor="book_Pub_Date">
-                                Publication Date
-                              </label>
-                              <br />
-                              <input
-                                type="text"
-                                name="book_Pub_Date"
-                                
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                              />
-                              <br />
-                              {errors.book_Pub_Date && (
-                                <small>{errors.book_Pub_Date}</small>
-                              )}
-                            </div>
-                            <div className="mb-3">
-                              <label htmlFor="book_imgURL">Image URL</label>
-                              <br />
-                              <input
-                                type="text"
-                                name="book_imgURL"
-                                
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                              />
-                              <br />
-                              {errors.book_imgURL && (
-                                <small>{errors.book_imgURL}</small>
-                              )}
-                            </div>
-                          </div>
-                          <div className="author">
-                            <h5>Author details</h5>
 
-                            <div className="mb-3">
-                              <label htmlFor="author_name">Name</label>
-                              <br />
-                              <input
-                                type="text"
-                                name="author_name"
-                                
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                              />
-                              <br />
-                              {errors.author_name && (
-                                <small>{errors.author_name}</small>
-                              )}
-                            </div>
-                            <div className="mb-3">
-                              <label htmlFor="author_dob">Author DOB</label>
-                              <br />
-                              <input
-                                type="text"
-                                name="author_dob"
-                                
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                              />
-                              <br />
-                              {errors.author_dob && (
-                                <small>{errors.author_dob}</small>
-                              )}
-                            </div>
-                            <div className="mb-3">
-                              <label htmlFor="author_bio">Bio</label>
-                              <br />
-                              <input
-                                type="text"
-                                name="author_bio"
-                                
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                              />
-                              <br />
-                              {errors.author_bio && (
-                                <small>{errors.author_bio}</small>
-                              )}
-                            </div>
-                          </div>
+                        <Formik
+                          initialValues={{
+                            book_title: "1234",
+                            book_ISBN: bookISBN,
+                            book_Pub_Date: "",
+                            book_imgURL: "",
+                            author_name: "",
+                            author_dob: "",
+                            author_bio: "",
+                          }}
 
-                          <div>
-                            <button type="submit"
-                            className="btn btn-outline-dark"
-                            
-                            >Submit</button>
-                          </div>
-                        </form>
-                      </div>
-                      <div className="modal-footer">
-                        {/* <button
-                          type="button"
-                          className="btn btn-secondary"
-                          data-bs-dismiss="modal"
+                          
+
+                          validationSchema={validateform}
+  
                         >
-                          Close
-                        </button>
-                        <button type="button" className="btn btn-primary">
-                          Submit
-                        </button> */}
+                          <Form onSubmit={(e)=>UpdateBook(e,book.id)}>
+                            <div className="book">
+                              <h5>Book Details</h5>
+                              <div className="mb-3">
+                                <label htmlFor="book_title">Title</label>
+                                <br />
+                                <Field
+                                  type="text"
+                                  name="book_title"
+                                  value={bookTitle}
+                                  onChange={(e) => {
+                                    setBookTitle(e.target.value);
+                                  }}
+                                />
+                                <ErrorMessage
+                                  name="book_title"
+                                  component="div"
+                                  className="error"
+                                />
+                              </div>
+                              <div className="mb-3">
+                                <label htmlFor="book_ISBN">ISBN_NUMBER:</label>
+                                <br />
+                                <Field
+                                  type="number"
+                                  name="book_ISBN"
+                                  value={bookISBN}
+                                  onChange={(e) => {
+                                    setBookISBN(e.target.value);
+                                  }}
+                                />
+                                <ErrorMessage
+                                  name="book_ISBN"
+                                  component="div"
+                                  className="error"
+                                />
+                              </div>
+                              <div className="mb-3">
+                                <label htmlFor="book_Pub_Date">
+                                  Publication Date
+                                </label>
+                                <br />
+                                <Field
+                                  type="date"
+                                  name="book_Pub_Date"
+                                  value={bookPub_Date}
+                                  onChange={(e) => {
+                                    setBookPubDate(e.target.value);
+                                  }}
+                                />
+                                <ErrorMessage
+                                  name="book_Pub_Date"
+                                  component="div"
+                                  className="error"
+                                />
+                              </div>
+                              <div className="mb-3">
+                                <label htmlFor="book_imgURL">Image URL</label>
+                                <br />
+                                <Field
+                                  type="url"
+                                  name="book_imgURL"
+                                  value={bookImgURL}
+                                  onChange={(e) => {
+                                    setbookImgURL(e.target.value);
+                                  }}
+                                />
+                                <ErrorMessage
+                                  name="book_imgURL"
+                                  component="div"
+                                  className="error"
+                                />
+                              </div>
+                            </div>
+                            <div className="author">
+                              <h5>Author details</h5>
+
+                              <div className="mb-3">
+                                <label htmlFor="author_name">Name</label>
+                                <br />
+                                <Field
+                                  type="text"
+                                  name="author_name"
+                                  value={authorName}
+                                  onChange={(e) => {
+                                    setauthorName(e.target.value);
+                                  }}
+                                />
+                                <ErrorMessage
+                                  name="author_name"
+                                  component="div"
+                                  className="error"
+                                />
+                              </div>
+                              <div className="mb-3">
+                                <label htmlFor="author_dob">Author DOB</label>
+                                <br />
+                                <Field
+                                  type="date"
+                                  name="author_dob"
+                                  value={authorDOB}
+                                  onChange={(e) => {
+                                    setauthorDOB(e.target.value);
+                                  }}
+                                />
+                                <ErrorMessage
+                                  name="author_dob"
+                                  component="div"
+                                  className="error"
+                                />
+                              </div>
+                              <div className="mb-3">
+                                <label htmlFor="author_bio">Bio</label>
+                                <br />
+                                <Field
+                                  type="text"
+                                  name="author_bio"
+                                  value={authorBIO}
+                                  onChange={(e) => {
+                                    setauthorBIO(e.target.value);
+                                  }}
+                                />
+                                <ErrorMessage
+                                  name="author_bio"
+                                  component="div"
+                                  className="error"
+                                />
+                              </div>
+                            </div>
+                            <div className="modal-footer">
+                              <button
+                                type="button"
+                                className="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                                onClick={() => {
+                                  deleteBook(selected.id);
+                                }}
+                              >
+                                Delete
+                              </button>
+                              <button type="submit" className="btn btn-primary"
+                              
+                              >
+                                Submit
+                              </button>
+                            </div>
+                          </Form>
+                        </Formik>
                       </div>
                     </div>
                   </div>
@@ -227,7 +325,7 @@ function DashBoard() {
 
                 {/* /model */}
 
-                <Card book={book} handleSelected={handleSelected}/>
+                <Card book={book} handleSelected={handleSelected} />
               </div>
             );
           })}
