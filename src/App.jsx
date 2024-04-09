@@ -7,7 +7,6 @@ function App() {
   return (
     <div className="page">
 
-   
     <div className="container-fluid">
       <div className="row">
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -48,7 +47,7 @@ function App() {
         <Outlet />
       </div>
 
-      <div className="row fixed-bottom">
+      <div className="row mt-3">
           <nav className="navbar navbar-dark bg-dark ">
           <div className="container-fluid">
             <span className="navbar-brand mb-0 h1">&copy;Copyright</span>
